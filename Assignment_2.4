@@ -1,0 +1,1884 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyNWwlZoAEsJZDVRtJHuBQTE",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/2403a54123-web/NLP/blob/main/Assignment_2.4\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 1,
+      "metadata": {
+        "id": "g5t-rs6evNSe"
+      },
+      "outputs": [],
+      "source": [
+        "SRUniversity=\"\"\"The SR University campus is located in Ananthasagar village of Hasanparthy Mandal in Warangal, Telangana, India.\n",
+        "It is in 150 acres, with both separate hostel facilities for boys and girls.\n",
+        "There is a huge central library along with Indias largest Technology Business Incubator (TBI) in tier 2 cities.\"\"\"\n",
+        ""
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "import nltk\n",
+        "nltk.download('punkt')\n",
+        "nltk.download('punkt_tab') # Added to resolve the LookupError\n",
+        "from nltk.tokenize import word_tokenize\n",
+        "word_tokenize(SRUniversity)\n",
+        ""
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "08wjVTtSvXn_",
+        "outputId": "b8c79b8a-f15a-4332-b7e1-b79f13f09f58"
+      },
+      "execution_count": 2,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stderr",
+          "text": [
+            "[nltk_data] Downloading package punkt to /root/nltk_data...\n",
+            "[nltk_data]   Unzipping tokenizers/punkt.zip.\n",
+            "[nltk_data] Downloading package punkt_tab to /root/nltk_data...\n",
+            "[nltk_data]   Unzipping tokenizers/punkt_tab.zip.\n"
+          ]
+        },
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "['The',\n",
+              " 'SR',\n",
+              " 'University',\n",
+              " 'campus',\n",
+              " 'is',\n",
+              " 'located',\n",
+              " 'in',\n",
+              " 'Ananthasagar',\n",
+              " 'village',\n",
+              " 'of',\n",
+              " 'Hasanparthy',\n",
+              " 'Mandal',\n",
+              " 'in',\n",
+              " 'Warangal',\n",
+              " ',',\n",
+              " 'Telangana',\n",
+              " ',',\n",
+              " 'India',\n",
+              " '.',\n",
+              " 'It',\n",
+              " 'is',\n",
+              " 'in',\n",
+              " '150',\n",
+              " 'acres',\n",
+              " ',',\n",
+              " 'with',\n",
+              " 'both',\n",
+              " 'separate',\n",
+              " 'hostel',\n",
+              " 'facilities',\n",
+              " 'for',\n",
+              " 'boys',\n",
+              " 'and',\n",
+              " 'girls',\n",
+              " '.',\n",
+              " 'There',\n",
+              " 'is',\n",
+              " 'a',\n",
+              " 'huge',\n",
+              " 'central',\n",
+              " 'library',\n",
+              " 'along',\n",
+              " 'with',\n",
+              " 'Indias',\n",
+              " 'largest',\n",
+              " 'Technology',\n",
+              " 'Business',\n",
+              " 'Incubator',\n",
+              " '(',\n",
+              " 'TBI',\n",
+              " ')',\n",
+              " 'in',\n",
+              " 'tier',\n",
+              " '2',\n",
+              " 'cities',\n",
+              " '.']"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 2
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "from nltk.tokenize import sent_tokenize\n",
+        "sent_tokenize(SRUniversity)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "LJOIkVY3veHo",
+        "outputId": "7bf85b55-f51e-4981-896c-d56516d513de"
+      },
+      "execution_count": 3,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "['The SR University campus is located in Ananthasagar village of Hasanparthy Mandal in Warangal, Telangana, India.',\n",
+              " 'It is in 150 acres, with both separate hostel facilities for boys and girls.',\n",
+              " 'There is a huge central library along with Indias largest Technology Business Incubator (TBI) in tier 2 cities.']"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 3
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "nltk.download(\"stopwords\")\n",
+        "from nltk.corpus import stopwords\n",
+        "from nltk.tokenize import word_tokenize"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "9z9Sui5xvmmg",
+        "outputId": "62d58bac-deab-45cf-b9fe-b1c2c4be8fa4"
+      },
+      "execution_count": 4,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stderr",
+          "text": [
+            "[nltk_data] Downloading package stopwords to /root/nltk_data...\n",
+            "[nltk_data]   Unzipping corpora/stopwords.zip.\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "\n",
+        "words_in_quote = word_tokenize(SRUniversity)\n",
+        "words_in_quote"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "NGAxPBiyv061",
+        "outputId": "75159f83-f2ad-4f4b-db13-d7f792ce9876"
+      },
+      "execution_count": 5,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "['The',\n",
+              " 'SR',\n",
+              " 'University',\n",
+              " 'campus',\n",
+              " 'is',\n",
+              " 'located',\n",
+              " 'in',\n",
+              " 'Ananthasagar',\n",
+              " 'village',\n",
+              " 'of',\n",
+              " 'Hasanparthy',\n",
+              " 'Mandal',\n",
+              " 'in',\n",
+              " 'Warangal',\n",
+              " ',',\n",
+              " 'Telangana',\n",
+              " ',',\n",
+              " 'India',\n",
+              " '.',\n",
+              " 'It',\n",
+              " 'is',\n",
+              " 'in',\n",
+              " '150',\n",
+              " 'acres',\n",
+              " ',',\n",
+              " 'with',\n",
+              " 'both',\n",
+              " 'separate',\n",
+              " 'hostel',\n",
+              " 'facilities',\n",
+              " 'for',\n",
+              " 'boys',\n",
+              " 'and',\n",
+              " 'girls',\n",
+              " '.',\n",
+              " 'There',\n",
+              " 'is',\n",
+              " 'a',\n",
+              " 'huge',\n",
+              " 'central',\n",
+              " 'library',\n",
+              " 'along',\n",
+              " 'with',\n",
+              " 'Indias',\n",
+              " 'largest',\n",
+              " 'Technology',\n",
+              " 'Business',\n",
+              " 'Incubator',\n",
+              " '(',\n",
+              " 'TBI',\n",
+              " ')',\n",
+              " 'in',\n",
+              " 'tier',\n",
+              " '2',\n",
+              " 'cities',\n",
+              " '.']"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 5
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "stop_words = set(stopwords.words(\"english\"))\n",
+        "filtered_list = []\n",
+        "for word in words_in_quote:\n",
+        "  if word.casefold() not in stop_words:\n",
+        "    filtered_list.append(word)\n",
+        "filtered_list"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "6zgADZEAv68u",
+        "outputId": "debb0d1b-4b5d-452f-ecbb-0142a4d6e6c5"
+      },
+      "execution_count": 6,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "['SR',\n",
+              " 'University',\n",
+              " 'campus',\n",
+              " 'located',\n",
+              " 'Ananthasagar',\n",
+              " 'village',\n",
+              " 'Hasanparthy',\n",
+              " 'Mandal',\n",
+              " 'Warangal',\n",
+              " ',',\n",
+              " 'Telangana',\n",
+              " ',',\n",
+              " 'India',\n",
+              " '.',\n",
+              " '150',\n",
+              " 'acres',\n",
+              " ',',\n",
+              " 'separate',\n",
+              " 'hostel',\n",
+              " 'facilities',\n",
+              " 'boys',\n",
+              " 'girls',\n",
+              " '.',\n",
+              " 'huge',\n",
+              " 'central',\n",
+              " 'library',\n",
+              " 'along',\n",
+              " 'Indias',\n",
+              " 'largest',\n",
+              " 'Technology',\n",
+              " 'Business',\n",
+              " 'Incubator',\n",
+              " '(',\n",
+              " 'TBI',\n",
+              " ')',\n",
+              " 'tier',\n",
+              " '2',\n",
+              " 'cities',\n",
+              " '.']"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 6
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "from nltk.stem import PorterStemmer\n",
+        "from nltk.tokenize import word_tokenize\n",
+        "stemmer = PorterStemmer()\n",
+        "words = word_tokenize(SRUniversity)\n",
+        "stemmed_words = [stemmer.stem(word) for word in words]\n",
+        "stemmed_words"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "Ck3XC2kJv-5p",
+        "outputId": "ea455a59-c506-46e1-bc8f-6e0fb94119c2"
+      },
+      "execution_count": 7,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "['the',\n",
+              " 'sr',\n",
+              " 'univers',\n",
+              " 'campu',\n",
+              " 'is',\n",
+              " 'locat',\n",
+              " 'in',\n",
+              " 'ananthasagar',\n",
+              " 'villag',\n",
+              " 'of',\n",
+              " 'hasanparthi',\n",
+              " 'mandal',\n",
+              " 'in',\n",
+              " 'warang',\n",
+              " ',',\n",
+              " 'telangana',\n",
+              " ',',\n",
+              " 'india',\n",
+              " '.',\n",
+              " 'it',\n",
+              " 'is',\n",
+              " 'in',\n",
+              " '150',\n",
+              " 'acr',\n",
+              " ',',\n",
+              " 'with',\n",
+              " 'both',\n",
+              " 'separ',\n",
+              " 'hostel',\n",
+              " 'facil',\n",
+              " 'for',\n",
+              " 'boy',\n",
+              " 'and',\n",
+              " 'girl',\n",
+              " '.',\n",
+              " 'there',\n",
+              " 'is',\n",
+              " 'a',\n",
+              " 'huge',\n",
+              " 'central',\n",
+              " 'librari',\n",
+              " 'along',\n",
+              " 'with',\n",
+              " 'india',\n",
+              " 'largest',\n",
+              " 'technolog',\n",
+              " 'busi',\n",
+              " 'incub',\n",
+              " '(',\n",
+              " 'tbi',\n",
+              " ')',\n",
+              " 'in',\n",
+              " 'tier',\n",
+              " '2',\n",
+              " 'citi',\n",
+              " '.']"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 7
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "from nltk.stem import SnowballStemmer\n",
+        "snowball = SnowballStemmer(language='english')\n",
+        "words = word_tokenize(SRUniversity)\n",
+        "for word in words:\n",
+        "    print(word,\"--->\",snowball.stem(word))"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "GbO6GBXgwCzK",
+        "outputId": "f630361c-773d-41f9-d219-6c3c23c8115b"
+      },
+      "execution_count": 8,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "The ---> the\n",
+            "SR ---> sr\n",
+            "University ---> univers\n",
+            "campus ---> campus\n",
+            "is ---> is\n",
+            "located ---> locat\n",
+            "in ---> in\n",
+            "Ananthasagar ---> ananthasagar\n",
+            "village ---> villag\n",
+            "of ---> of\n",
+            "Hasanparthy ---> hasanparthi\n",
+            "Mandal ---> mandal\n",
+            "in ---> in\n",
+            "Warangal ---> warang\n",
+            ", ---> ,\n",
+            "Telangana ---> telangana\n",
+            ", ---> ,\n",
+            "India ---> india\n",
+            ". ---> .\n",
+            "It ---> it\n",
+            "is ---> is\n",
+            "in ---> in\n",
+            "150 ---> 150\n",
+            "acres ---> acr\n",
+            ", ---> ,\n",
+            "with ---> with\n",
+            "both ---> both\n",
+            "separate ---> separ\n",
+            "hostel ---> hostel\n",
+            "facilities ---> facil\n",
+            "for ---> for\n",
+            "boys ---> boy\n",
+            "and ---> and\n",
+            "girls ---> girl\n",
+            ". ---> .\n",
+            "There ---> there\n",
+            "is ---> is\n",
+            "a ---> a\n",
+            "huge ---> huge\n",
+            "central ---> central\n",
+            "library ---> librari\n",
+            "along ---> along\n",
+            "with ---> with\n",
+            "Indias ---> india\n",
+            "largest ---> largest\n",
+            "Technology ---> technolog\n",
+            "Business ---> busi\n",
+            "Incubator ---> incub\n",
+            "( ---> (\n",
+            "TBI ---> tbi\n",
+            ") ---> )\n",
+            "in ---> in\n",
+            "tier ---> tier\n",
+            "2 ---> 2\n",
+            "cities ---> citi\n",
+            ". ---> .\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "from nltk import LancasterStemmer\n",
+        "Lanc = LancasterStemmer()\n",
+        "words = word_tokenize(SRUniversity)\n",
+        "for word in words:\n",
+        "    print(word,\"--->\",Lanc.stem(word))"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "qNltSS93wKLE",
+        "outputId": "8635cddb-6380-4e92-bdab-46551e9ec703"
+      },
+      "execution_count": 9,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "The ---> the\n",
+            "SR ---> sr\n",
+            "University ---> univers\n",
+            "campus ---> camp\n",
+            "is ---> is\n",
+            "located ---> loc\n",
+            "in ---> in\n",
+            "Ananthasagar ---> ananthasag\n",
+            "village ---> vil\n",
+            "of ---> of\n",
+            "Hasanparthy ---> hasanparthy\n",
+            "Mandal ---> mand\n",
+            "in ---> in\n",
+            "Warangal ---> warang\n",
+            ", ---> ,\n",
+            "Telangana ---> telangan\n",
+            ", ---> ,\n",
+            "India ---> ind\n",
+            ". ---> .\n",
+            "It ---> it\n",
+            "is ---> is\n",
+            "in ---> in\n",
+            "150 ---> 150\n",
+            "acres ---> acr\n",
+            ", ---> ,\n",
+            "with ---> with\n",
+            "both ---> both\n",
+            "separate ---> sep\n",
+            "hostel ---> hostel\n",
+            "facilities ---> facil\n",
+            "for ---> for\n",
+            "boys ---> boy\n",
+            "and ---> and\n",
+            "girls ---> girl\n",
+            ". ---> .\n",
+            "There ---> ther\n",
+            "is ---> is\n",
+            "a ---> a\n",
+            "huge ---> hug\n",
+            "central ---> cent\n",
+            "library ---> libr\n",
+            "along ---> along\n",
+            "with ---> with\n",
+            "Indias ---> india\n",
+            "largest ---> largest\n",
+            "Technology ---> technolog\n",
+            "Business ---> busy\n",
+            "Incubator ---> incub\n",
+            "( ---> (\n",
+            "TBI ---> tbi\n",
+            ") ---> )\n",
+            "in ---> in\n",
+            "tier ---> tier\n",
+            "2 ---> 2\n",
+            "cities ---> city\n",
+            ". ---> .\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "from nltk.stem import RegexpStemmer\n",
+        "regexp = RegexpStemmer('ing|s|e|able', min=4)\n",
+        "words = word_tokenize(SRUniversity)\n",
+        "for word in words:\n",
+        "    print(word,\"--->\",Lanc.stem(word))"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "OdqdV_rawPZs",
+        "outputId": "853d4be8-1326-4abf-c47d-e50c55b9d74b"
+      },
+      "execution_count": 10,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "The ---> the\n",
+            "SR ---> sr\n",
+            "University ---> univers\n",
+            "campus ---> camp\n",
+            "is ---> is\n",
+            "located ---> loc\n",
+            "in ---> in\n",
+            "Ananthasagar ---> ananthasag\n",
+            "village ---> vil\n",
+            "of ---> of\n",
+            "Hasanparthy ---> hasanparthy\n",
+            "Mandal ---> mand\n",
+            "in ---> in\n",
+            "Warangal ---> warang\n",
+            ", ---> ,\n",
+            "Telangana ---> telangan\n",
+            ", ---> ,\n",
+            "India ---> ind\n",
+            ". ---> .\n",
+            "It ---> it\n",
+            "is ---> is\n",
+            "in ---> in\n",
+            "150 ---> 150\n",
+            "acres ---> acr\n",
+            ", ---> ,\n",
+            "with ---> with\n",
+            "both ---> both\n",
+            "separate ---> sep\n",
+            "hostel ---> hostel\n",
+            "facilities ---> facil\n",
+            "for ---> for\n",
+            "boys ---> boy\n",
+            "and ---> and\n",
+            "girls ---> girl\n",
+            ". ---> .\n",
+            "There ---> ther\n",
+            "is ---> is\n",
+            "a ---> a\n",
+            "huge ---> hug\n",
+            "central ---> cent\n",
+            "library ---> libr\n",
+            "along ---> along\n",
+            "with ---> with\n",
+            "Indias ---> india\n",
+            "largest ---> largest\n",
+            "Technology ---> technolog\n",
+            "Business ---> busy\n",
+            "Incubator ---> incub\n",
+            "( ---> (\n",
+            "TBI ---> tbi\n",
+            ") ---> )\n",
+            "in ---> in\n",
+            "tier ---> tier\n",
+            "2 ---> 2\n",
+            "cities ---> city\n",
+            ". ---> .\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "nltk.download('wordnet') # Changed from 'omw-1.4' to 'wordnet'\n",
+        "from nltk.stem import WordNetLemmatizer\n",
+        "lemmatizer = WordNetLemmatizer()\n",
+        "words = word_tokenize(SRUniversity)\n",
+        "for word in words:\n",
+        "    print(word,\"--->\",lemmatizer.lemmatize(word))"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "VQyOFtwnwUUw",
+        "outputId": "829ebc7a-6615-4ad6-9870-0eb30afcc1d5"
+      },
+      "execution_count": 11,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stderr",
+          "text": [
+            "[nltk_data] Downloading package wordnet to /root/nltk_data...\n"
+          ]
+        },
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "The ---> The\n",
+            "SR ---> SR\n",
+            "University ---> University\n",
+            "campus ---> campus\n",
+            "is ---> is\n",
+            "located ---> located\n",
+            "in ---> in\n",
+            "Ananthasagar ---> Ananthasagar\n",
+            "village ---> village\n",
+            "of ---> of\n",
+            "Hasanparthy ---> Hasanparthy\n",
+            "Mandal ---> Mandal\n",
+            "in ---> in\n",
+            "Warangal ---> Warangal\n",
+            ", ---> ,\n",
+            "Telangana ---> Telangana\n",
+            ", ---> ,\n",
+            "India ---> India\n",
+            ". ---> .\n",
+            "It ---> It\n",
+            "is ---> is\n",
+            "in ---> in\n",
+            "150 ---> 150\n",
+            "acres ---> acre\n",
+            ", ---> ,\n",
+            "with ---> with\n",
+            "both ---> both\n",
+            "separate ---> separate\n",
+            "hostel ---> hostel\n",
+            "facilities ---> facility\n",
+            "for ---> for\n",
+            "boys ---> boy\n",
+            "and ---> and\n",
+            "girls ---> girl\n",
+            ". ---> .\n",
+            "There ---> There\n",
+            "is ---> is\n",
+            "a ---> a\n",
+            "huge ---> huge\n",
+            "central ---> central\n",
+            "library ---> library\n",
+            "along ---> along\n",
+            "with ---> with\n",
+            "Indias ---> Indias\n",
+            "largest ---> largest\n",
+            "Technology ---> Technology\n",
+            "Business ---> Business\n",
+            "Incubator ---> Incubator\n",
+            "( ---> (\n",
+            "TBI ---> TBI\n",
+            ") ---> )\n",
+            "in ---> in\n",
+            "tier ---> tier\n",
+            "2 ---> 2\n",
+            "cities ---> city\n",
+            ". ---> .\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "lemmatizer.lemmatize(\"worst\")"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 35
+        },
+        "id": "fxwCtwO3waDw",
+        "outputId": "7ce43c77-2410-4e97-f667-06d0d0ad85ed"
+      },
+      "execution_count": 12,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "'worst'"
+            ],
+            "application/vnd.google.colaboratory.intrinsic+json": {
+              "type": "string"
+            }
+          },
+          "metadata": {},
+          "execution_count": 12
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "lemmatizer.lemmatize(\"worst\", pos=\"a\")"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 35
+        },
+        "id": "zrlgTmO7weGb",
+        "outputId": "e670270e-63b9-4af1-d385-cdb0c9b0a0ab"
+      },
+      "execution_count": 13,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "'bad'"
+            ],
+            "application/vnd.google.colaboratory.intrinsic+json": {
+              "type": "string"
+            }
+          },
+          "metadata": {},
+          "execution_count": 13
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "from nltk.stem import PorterStemmer, SnowballStemmer, LancasterStemmer, RegexpStemmer, WordNetLemmatizer\n",
+        "porter = PorterStemmer()\n",
+        "lancaster = LancasterStemmer()\n",
+        "snowball = SnowballStemmer(language='english')\n",
+        "regexp = RegexpStemmer('ing|s|e|able', min=4)\n",
+        "lemmatizer = WordNetLemmatizer()\n",
+        "\n",
+        "word_list = [\"friend\", \"friendship\", \"friends\", \"friendships\"]\n",
+        "print(\"{0:20}{1:20}{2:20}{3:30}{4:40}{5:50}\".format(\"Word\",\"Porter Stemmer\",\"Snowball Stemmer\",\"Lancaster Stemmer\",'Regexp Stemmer','WordNetLemmatizer'))\n",
+        "for word in word_list:\n",
+        "    print(\"{0:20}{1:20}{2:20}{3:30}{4:40}{5:50}\".format(word,porter.stem(word),snowball.stem(word),lancaster.stem(word),regexp.stem(word),lemmatizer.lemmatize(word)))\n"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "SUcxBCBEwhhl",
+        "outputId": "56cf6d9d-83d7-48dd-ddd5-a9b097ce5f55"
+      },
+      "execution_count": 14,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Word                Porter Stemmer      Snowball Stemmer    Lancaster Stemmer             Regexp Stemmer                          WordNetLemmatizer                                 \n",
+            "friend              friend              friend              friend                        frind                                   friend                                            \n",
+            "friendship          friendship          friendship          friend                        frindhip                                friendship                                        \n",
+            "friends             friend              friend              friend                        frind                                   friend                                            \n",
+            "friendships         friendship          friendship          friend                        frindhip                                friendship                                        \n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "nltk.download('averaged_perceptron_tagger_eng') # Changed from 'averaged_perceptron_tagger'\n",
+        "from nltk.tokenize import word_tokenize\n",
+        "words = word_tokenize(SRUniversity)\n",
+        "nltk.pos_tag(words)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "2Jrc3iQ8wnyW",
+        "outputId": "d2934b3d-04e1-4776-f7f3-0b7db3a6bc69"
+      },
+      "execution_count": 15,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stderr",
+          "text": [
+            "[nltk_data] Downloading package averaged_perceptron_tagger_eng to\n",
+            "[nltk_data]     /root/nltk_data...\n",
+            "[nltk_data]   Unzipping taggers/averaged_perceptron_tagger_eng.zip.\n"
+          ]
+        },
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "[('The', 'DT'),\n",
+              " ('SR', 'NNP'),\n",
+              " ('University', 'NNP'),\n",
+              " ('campus', 'NN'),\n",
+              " ('is', 'VBZ'),\n",
+              " ('located', 'VBN'),\n",
+              " ('in', 'IN'),\n",
+              " ('Ananthasagar', 'NNP'),\n",
+              " ('village', 'NN'),\n",
+              " ('of', 'IN'),\n",
+              " ('Hasanparthy', 'NNP'),\n",
+              " ('Mandal', 'NNP'),\n",
+              " ('in', 'IN'),\n",
+              " ('Warangal', 'NNP'),\n",
+              " (',', ','),\n",
+              " ('Telangana', 'NNP'),\n",
+              " (',', ','),\n",
+              " ('India', 'NNP'),\n",
+              " ('.', '.'),\n",
+              " ('It', 'PRP'),\n",
+              " ('is', 'VBZ'),\n",
+              " ('in', 'IN'),\n",
+              " ('150', 'CD'),\n",
+              " ('acres', 'NNS'),\n",
+              " (',', ','),\n",
+              " ('with', 'IN'),\n",
+              " ('both', 'DT'),\n",
+              " ('separate', 'JJ'),\n",
+              " ('hostel', 'NN'),\n",
+              " ('facilities', 'NNS'),\n",
+              " ('for', 'IN'),\n",
+              " ('boys', 'NNS'),\n",
+              " ('and', 'CC'),\n",
+              " ('girls', 'NNS'),\n",
+              " ('.', '.'),\n",
+              " ('There', 'EX'),\n",
+              " ('is', 'VBZ'),\n",
+              " ('a', 'DT'),\n",
+              " ('huge', 'JJ'),\n",
+              " ('central', 'JJ'),\n",
+              " ('library', 'NN'),\n",
+              " ('along', 'IN'),\n",
+              " ('with', 'IN'),\n",
+              " ('Indias', 'NNP'),\n",
+              " ('largest', 'JJS'),\n",
+              " ('Technology', 'NN'),\n",
+              " ('Business', 'NNP'),\n",
+              " ('Incubator', 'NNP'),\n",
+              " ('(', '('),\n",
+              " ('TBI', 'NNP'),\n",
+              " (')', ')'),\n",
+              " ('in', 'IN'),\n",
+              " ('tier', '$'),\n",
+              " ('2', 'CD'),\n",
+              " ('cities', 'NNS'),\n",
+              " ('.', '.')]"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 15
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "nltk.download('tagsets')\n",
+        "nltk.download('tagsets_json') # Added to resolve the LookupError\n",
+        "nltk.help.upenn_tagset()"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "8kWSyG8TwtC0",
+        "outputId": "e6551057-c402-46d9-8080-e0a7c6c984ea"
+      },
+      "execution_count": 16,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "$: dollar\n",
+            "    $ -$ --$ A$ C$ HK$ M$ NZ$ S$ U.S.$ US$\n",
+            "'': closing quotation mark\n",
+            "    ' ''\n",
+            "(: opening parenthesis\n",
+            "    ( [ {\n",
+            "): closing parenthesis\n",
+            "    ) ] }\n",
+            ",: comma\n",
+            "    ,\n",
+            "--: dash\n",
+            "    --\n",
+            ".: sentence terminator\n",
+            "    . ! ?\n",
+            ":: colon or ellipsis\n",
+            "    : ; ...\n",
+            "CC: conjunction, coordinating\n",
+            "    & 'n and both but either et for less minus neither nor or plus so\n",
+            "    therefore times v. versus vs. whether yet\n",
+            "CD: numeral, cardinal\n",
+            "    mid-1890 nine-thirty forty-two one-tenth ten million 0.5 one forty-\n",
+            "    seven 1987 twenty '79 zero two 78-degrees eighty-four IX '60s .025\n",
+            "    fifteen 271,124 dozen quintillion DM2,000 ...\n",
+            "DT: determiner\n",
+            "    all an another any both del each either every half la many much nary\n",
+            "    neither no some such that the them these this those\n",
+            "EX: existential there\n",
+            "    there\n",
+            "FW: foreign word\n",
+            "    gemeinschaft hund ich jeux habeas Haementeria Herr K'ang-si vous\n",
+            "    lutihaw alai je jour objets salutaris fille quibusdam pas trop Monte\n",
+            "    terram fiche oui corporis ...\n",
+            "IN: preposition or conjunction, subordinating\n",
+            "    astride among uppon whether out inside pro despite on by throughout\n",
+            "    below within for towards near behind atop around if like until below\n",
+            "    next into if beside ...\n",
+            "JJ: adjective or numeral, ordinal\n",
+            "    third ill-mannered pre-war regrettable oiled calamitous first separable\n",
+            "    ectoplasmic battery-powered participatory fourth still-to-be-named\n",
+            "    multilingual multi-disciplinary ...\n",
+            "JJR: adjective, comparative\n",
+            "    bleaker braver breezier briefer brighter brisker broader bumper busier\n",
+            "    calmer cheaper choosier cleaner clearer closer colder commoner costlier\n",
+            "    cozier creamier crunchier cuter ...\n",
+            "JJS: adjective, superlative\n",
+            "    calmest cheapest choicest classiest cleanest clearest closest commonest\n",
+            "    corniest costliest crassest creepiest crudest cutest darkest deadliest\n",
+            "    dearest deepest densest dinkiest ...\n",
+            "LS: list item marker\n",
+            "    A A. B B. C C. D E F First G H I J K One SP-44001 SP-44002 SP-44005\n",
+            "    SP-44007 Second Third Three Two * a b c d first five four one six three\n",
+            "    two\n",
+            "MD: modal auxiliary\n",
+            "    can cannot could couldn't dare may might must need ought shall should\n",
+            "    shouldn't will would\n",
+            "NN: noun, common, singular or mass\n",
+            "    common-carrier cabbage knuckle-duster Casino afghan shed thermostat\n",
+            "    investment slide humour falloff slick wind hyena override subhumanity\n",
+            "    machinist ...\n",
+            "NNP: noun, proper, singular\n",
+            "    Motown Venneboerger Czestochwa Ranzer Conchita Trumplane Christos\n",
+            "    Oceanside Escobar Kreisler Sawyer Cougar Yvette Ervin ODI Darryl CTCA\n",
+            "    Shannon A.K.C. Meltex Liverpool ...\n",
+            "NNPS: noun, proper, plural\n",
+            "    Americans Americas Amharas Amityvilles Amusements Anarcho-Syndicalists\n",
+            "    Andalusians Andes Andruses Angels Animals Anthony Antilles Antiques\n",
+            "    Apache Apaches Apocrypha ...\n",
+            "NNS: noun, common, plural\n",
+            "    undergraduates scotches bric-a-brac products bodyguards facets coasts\n",
+            "    divestitures storehouses designs clubs fragrances averages\n",
+            "    subjectivists apprehensions muses factory-jobs ...\n",
+            "PDT: pre-determiner\n",
+            "    all both half many quite such sure this\n",
+            "POS: genitive marker\n",
+            "    ' 's\n",
+            "PRP: pronoun, personal\n",
+            "    hers herself him himself hisself it itself me myself one oneself ours\n",
+            "    ourselves ownself self she thee theirs them themselves they thou thy us\n",
+            "PRP$: pronoun, possessive\n",
+            "    her his mine my our ours their thy your\n",
+            "RB: adverb\n",
+            "    occasionally unabatingly maddeningly adventurously professedly\n",
+            "    stirringly prominently technologically magisterially predominately\n",
+            "    swiftly fiscally pitilessly ...\n",
+            "RBR: adverb, comparative\n",
+            "    further gloomier grander graver greater grimmer harder harsher\n",
+            "    healthier heavier higher however larger later leaner lengthier less-\n",
+            "    perfectly lesser lonelier longer louder lower more ...\n",
+            "RBS: adverb, superlative\n",
+            "    best biggest bluntest earliest farthest first furthest hardest\n",
+            "    heartiest highest largest least less most nearest second tightest worst\n",
+            "RP: particle\n",
+            "    aboard about across along apart around aside at away back before behind\n",
+            "    by crop down ever fast for forth from go high i.e. in into just later\n",
+            "    low more off on open out over per pie raising start teeth that through\n",
+            "    under unto up up-pp upon whole with you\n",
+            "SYM: symbol\n",
+            "    % & ' '' ''. ) ). * + ,. < = > @ A[fj] U.S U.S.S.R * ** ***\n",
+            "TO: \"to\" as preposition or infinitive marker\n",
+            "    to\n",
+            "UH: interjection\n",
+            "    Goodbye Goody Gosh Wow Jeepers Jee-sus Hubba Hey Kee-reist Oops amen\n",
+            "    huh howdy uh dammit whammo shucks heck anyways whodunnit honey golly\n",
+            "    man baby diddle hush sonuvabitch ...\n",
+            "VB: verb, base form\n",
+            "    ask assemble assess assign assume atone attention avoid bake balkanize\n",
+            "    bank begin behold believe bend benefit bevel beware bless boil bomb\n",
+            "    boost brace break bring broil brush build ...\n",
+            "VBD: verb, past tense\n",
+            "    dipped pleaded swiped regummed soaked tidied convened halted registered\n",
+            "    cushioned exacted snubbed strode aimed adopted belied figgered\n",
+            "    speculated wore appreciated contemplated ...\n",
+            "VBG: verb, present participle or gerund\n",
+            "    telegraphing stirring focusing angering judging stalling lactating\n",
+            "    hankerin' alleging veering capping approaching traveling besieging\n",
+            "    encrypting interrupting erasing wincing ...\n",
+            "VBN: verb, past participle\n",
+            "    multihulled dilapidated aerosolized chaired languished panelized used\n",
+            "    experimented flourished imitated reunifed factored condensed sheared\n",
+            "    unsettled primed dubbed desired ...\n",
+            "VBP: verb, present tense, not 3rd person singular\n",
+            "    predominate wrap resort sue twist spill cure lengthen brush terminate\n",
+            "    appear tend stray glisten obtain comprise detest tease attract\n",
+            "    emphasize mold postpone sever return wag ...\n",
+            "VBZ: verb, present tense, 3rd person singular\n",
+            "    bases reconstructs marks mixes displeases seals carps weaves snatches\n",
+            "    slumps stretches authorizes smolders pictures emerges stockpiles\n",
+            "    seduces fizzes uses bolsters slaps speaks pleads ...\n",
+            "WDT: WH-determiner\n",
+            "    that what whatever which whichever\n",
+            "WP: WH-pronoun\n",
+            "    that what whatever whatsoever which who whom whosoever\n",
+            "WP$: WH-pronoun, possessive\n",
+            "    whose\n",
+            "WRB: Wh-adverb\n",
+            "    how however whence whenever where whereby whereever wherein whereof why\n",
+            "``: opening quotation mark\n",
+            "    ` ``\n"
+          ]
+        },
+        {
+          "output_type": "stream",
+          "name": "stderr",
+          "text": [
+            "[nltk_data] Downloading package tagsets to /root/nltk_data...\n",
+            "[nltk_data]   Unzipping help/tagsets.zip.\n",
+            "[nltk_data] Downloading package tagsets_json to /root/nltk_data...\n",
+            "[nltk_data]   Unzipping help/tagsets_json.zip.\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "from nltk.tokenize import word_tokenize\n",
+        "lotr_quote = \"It's a dangerous business, Frodo, going out your door.\"\n",
+        "words_in_lotr_quote = word_tokenize(lotr_quote)\n",
+        "lotr_pos_tags = nltk.pos_tag(words_in_lotr_quote)\n",
+        "# Corrected grammar for Noun Phrase chunking\n",
+        "grammar = \"NP: {<DT>?<JJ>*<NN>}\"\n",
+        "chunk_parser = nltk.RegexpParser(grammar)\n",
+        "tree = chunk_parser.parse(lotr_pos_tags)\n",
+        "print(tree)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "LvR0xQQ6wwyK",
+        "outputId": "3d181251-afaa-49a0-f347-c224eee22e51"
+      },
+      "execution_count": 19,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "(S\n",
+            "  It/PRP\n",
+            "  's/VBZ\n",
+            "  (NP a/DT dangerous/JJ business/NN)\n",
+            "  ,/,\n",
+            "  Frodo/NNP\n",
+            "  ,/,\n",
+            "  going/VBG\n",
+            "  out/RP\n",
+            "  your/PRP$\n",
+            "  (NP door/NN)\n",
+            "  ./.)\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "def extract_ne(quote):\n",
+        "  words = word_tokenize(quote)\n",
+        "  tags = nltk.pos_tag(words)\n",
+        "  tree = nltk.ne_chunk(tags, binary=True)\n",
+        "  return set(\" \".join(i[0] for i in t)\n",
+        "            for t in tree\n",
+        "            if hasattr(t, \"label\") and t.label() == \"NE\"\n",
+        "            )"
+      ],
+      "metadata": {
+        "id": "vJM5udN6xO87"
+      },
+      "execution_count": 20,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "nltk.download('maxent_ne_chunker')\n",
+        "nltk.download('words')\n",
+        "nltk.download('maxent_ne_chunker_tab') # Added to resolve the LookupError\n",
+        "extract_ne(\"I am Venkatamana, from India, working as professor\")"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "h3aD4_m2xUkW",
+        "outputId": "b55eb373-8e5c-4efd-b8e0-e0d0d5cb3a73"
+      },
+      "execution_count": 21,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stderr",
+          "text": [
+            "[nltk_data] Downloading package maxent_ne_chunker to\n",
+            "[nltk_data]     /root/nltk_data...\n",
+            "[nltk_data]   Unzipping chunkers/maxent_ne_chunker.zip.\n",
+            "[nltk_data] Downloading package words to /root/nltk_data...\n",
+            "[nltk_data]   Unzipping corpora/words.zip.\n",
+            "[nltk_data] Downloading package maxent_ne_chunker_tab to\n",
+            "[nltk_data]     /root/nltk_data...\n",
+            "[nltk_data]   Unzipping chunkers/maxent_ne_chunker_tab.zip.\n"
+          ]
+        },
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "{'India', 'Venkatamana'}"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 21
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "!pip install nltk spacy\n",
+        "!python -m spacy download en_core_web_sm"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "Ts_evjvcxY8U",
+        "outputId": "ffb72de2-5ec9-45bd-b894-7e926b8d767c"
+      },
+      "execution_count": 22,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Requirement already satisfied: nltk in /usr/local/lib/python3.12/dist-packages (3.9.1)\n",
+            "Requirement already satisfied: spacy in /usr/local/lib/python3.12/dist-packages (3.8.11)\n",
+            "Requirement already satisfied: click in /usr/local/lib/python3.12/dist-packages (from nltk) (8.3.1)\n",
+            "Requirement already satisfied: joblib in /usr/local/lib/python3.12/dist-packages (from nltk) (1.5.3)\n",
+            "Requirement already satisfied: regex>=2021.8.3 in /usr/local/lib/python3.12/dist-packages (from nltk) (2025.11.3)\n",
+            "Requirement already satisfied: tqdm in /usr/local/lib/python3.12/dist-packages (from nltk) (4.67.1)\n",
+            "Requirement already satisfied: spacy-legacy<3.1.0,>=3.0.11 in /usr/local/lib/python3.12/dist-packages (from spacy) (3.0.12)\n",
+            "Requirement already satisfied: spacy-loggers<2.0.0,>=1.0.0 in /usr/local/lib/python3.12/dist-packages (from spacy) (1.0.5)\n",
+            "Requirement already satisfied: murmurhash<1.1.0,>=0.28.0 in /usr/local/lib/python3.12/dist-packages (from spacy) (1.0.15)\n",
+            "Requirement already satisfied: cymem<2.1.0,>=2.0.2 in /usr/local/lib/python3.12/dist-packages (from spacy) (2.0.13)\n",
+            "Requirement already satisfied: preshed<3.1.0,>=3.0.2 in /usr/local/lib/python3.12/dist-packages (from spacy) (3.0.12)\n",
+            "Requirement already satisfied: thinc<8.4.0,>=8.3.4 in /usr/local/lib/python3.12/dist-packages (from spacy) (8.3.10)\n",
+            "Requirement already satisfied: wasabi<1.2.0,>=0.9.1 in /usr/local/lib/python3.12/dist-packages (from spacy) (1.1.3)\n",
+            "Requirement already satisfied: srsly<3.0.0,>=2.4.3 in /usr/local/lib/python3.12/dist-packages (from spacy) (2.5.2)\n",
+            "Requirement already satisfied: catalogue<2.1.0,>=2.0.6 in /usr/local/lib/python3.12/dist-packages (from spacy) (2.0.10)\n",
+            "Requirement already satisfied: weasel<0.5.0,>=0.4.2 in /usr/local/lib/python3.12/dist-packages (from spacy) (0.4.3)\n",
+            "Requirement already satisfied: typer-slim<1.0.0,>=0.3.0 in /usr/local/lib/python3.12/dist-packages (from spacy) (0.20.0)\n",
+            "Requirement already satisfied: numpy>=1.19.0 in /usr/local/lib/python3.12/dist-packages (from spacy) (2.0.2)\n",
+            "Requirement already satisfied: requests<3.0.0,>=2.13.0 in /usr/local/lib/python3.12/dist-packages (from spacy) (2.32.4)\n",
+            "Requirement already satisfied: pydantic!=1.8,!=1.8.1,<3.0.0,>=1.7.4 in /usr/local/lib/python3.12/dist-packages (from spacy) (2.12.3)\n",
+            "Requirement already satisfied: jinja2 in /usr/local/lib/python3.12/dist-packages (from spacy) (3.1.6)\n",
+            "Requirement already satisfied: setuptools in /usr/local/lib/python3.12/dist-packages (from spacy) (75.2.0)\n",
+            "Requirement already satisfied: packaging>=20.0 in /usr/local/lib/python3.12/dist-packages (from spacy) (25.0)\n",
+            "Requirement already satisfied: annotated-types>=0.6.0 in /usr/local/lib/python3.12/dist-packages (from pydantic!=1.8,!=1.8.1,<3.0.0,>=1.7.4->spacy) (0.7.0)\n",
+            "Requirement already satisfied: pydantic-core==2.41.4 in /usr/local/lib/python3.12/dist-packages (from pydantic!=1.8,!=1.8.1,<3.0.0,>=1.7.4->spacy) (2.41.4)\n",
+            "Requirement already satisfied: typing-extensions>=4.14.1 in /usr/local/lib/python3.12/dist-packages (from pydantic!=1.8,!=1.8.1,<3.0.0,>=1.7.4->spacy) (4.15.0)\n",
+            "Requirement already satisfied: typing-inspection>=0.4.2 in /usr/local/lib/python3.12/dist-packages (from pydantic!=1.8,!=1.8.1,<3.0.0,>=1.7.4->spacy) (0.4.2)\n",
+            "Requirement already satisfied: charset_normalizer<4,>=2 in /usr/local/lib/python3.12/dist-packages (from requests<3.0.0,>=2.13.0->spacy) (3.4.4)\n",
+            "Requirement already satisfied: idna<4,>=2.5 in /usr/local/lib/python3.12/dist-packages (from requests<3.0.0,>=2.13.0->spacy) (3.11)\n",
+            "Requirement already satisfied: urllib3<3,>=1.21.1 in /usr/local/lib/python3.12/dist-packages (from requests<3.0.0,>=2.13.0->spacy) (2.5.0)\n",
+            "Requirement already satisfied: certifi>=2017.4.17 in /usr/local/lib/python3.12/dist-packages (from requests<3.0.0,>=2.13.0->spacy) (2025.11.12)\n",
+            "Requirement already satisfied: blis<1.4.0,>=1.3.0 in /usr/local/lib/python3.12/dist-packages (from thinc<8.4.0,>=8.3.4->spacy) (1.3.3)\n",
+            "Requirement already satisfied: confection<1.0.0,>=0.0.1 in /usr/local/lib/python3.12/dist-packages (from thinc<8.4.0,>=8.3.4->spacy) (0.1.5)\n",
+            "Requirement already satisfied: cloudpathlib<1.0.0,>=0.7.0 in /usr/local/lib/python3.12/dist-packages (from weasel<0.5.0,>=0.4.2->spacy) (0.23.0)\n",
+            "Requirement already satisfied: smart-open<8.0.0,>=5.2.1 in /usr/local/lib/python3.12/dist-packages (from weasel<0.5.0,>=0.4.2->spacy) (7.5.0)\n",
+            "Requirement already satisfied: MarkupSafe>=2.0 in /usr/local/lib/python3.12/dist-packages (from jinja2->spacy) (3.0.3)\n",
+            "Requirement already satisfied: wrapt in /usr/local/lib/python3.12/dist-packages (from smart-open<8.0.0,>=5.2.1->weasel<0.5.0,>=0.4.2->spacy) (2.0.1)\n",
+            "Collecting en-core-web-sm==3.8.0\n",
+            "  Downloading https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.8.0/en_core_web_sm-3.8.0-py3-none-any.whl (12.8 MB)\n",
+            "\u001b[2K     \u001b[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m \u001b[32m12.8/12.8 MB\u001b[0m \u001b[31m112.7 MB/s\u001b[0m eta \u001b[36m0:00:00\u001b[0m\n",
+            "\u001b[?25h\u001b[38;5;2m✔ Download and installation successful\u001b[0m\n",
+            "You can now load the package via spacy.load('en_core_web_sm')\n",
+            "\u001b[38;5;3m⚠ Restart to reload dependencies\u001b[0m\n",
+            "If you are in a Jupyter or Colab notebook, you may need to restart Python in\n",
+            "order to load all the package's dependencies. You can do this by selecting the\n",
+            "'Restart kernel' or 'Restart runtime' option.\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "import nltk\n",
+        "import spacy\n",
+        "from nltk.tokenize import sent_tokenize, word_tokenize\n",
+        "from nltk.stem import PorterStemmer\n",
+        "from nltk.stem import WordNetLemmatizer\n"
+      ],
+      "metadata": {
+        "id": "a7Dwp1KHxhqE"
+      },
+      "execution_count": 23,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "nltk.download('punkt')\n",
+        "nltk.download('wordnet')\n",
+        "nltk.download('omw-1.4')\n",
+        ""
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "-8L3CkW70vbd",
+        "outputId": "55cb73cc-93e7-4aec-eec7-c47bd2a5f09d"
+      },
+      "execution_count": 24,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stderr",
+          "text": [
+            "[nltk_data] Downloading package punkt to /root/nltk_data...\n",
+            "[nltk_data]   Package punkt is already up-to-date!\n",
+            "[nltk_data] Downloading package wordnet to /root/nltk_data...\n",
+            "[nltk_data]   Package wordnet is already up-to-date!\n",
+            "[nltk_data] Downloading package omw-1.4 to /root/nltk_data...\n"
+          ]
+        },
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "True"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 24
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "medical_text = \"\"\"\n",
+        "Patients with diabetes mellitus were treated with insulin therapy.\n",
+        "The treatment reduced blood glucose levels and improved patient outcomes.\n",
+        "Early diagnosis and monitoring are essential for preventing complications.\n",
+        "\"\"\""
+      ],
+      "metadata": {
+        "id": "4FXJk82r0y2-"
+      },
+      "execution_count": 25,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "sentences = sent_tokenize(medical_text)\n",
+        "sentences\n"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "OUVTYvLE02Tj",
+        "outputId": "6c71158d-cd30-4378-9a96-238ad498a27f"
+      },
+      "execution_count": 26,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "['\\nPatients with diabetes mellitus were treated with insulin therapy.',\n",
+              " 'The treatment reduced blood glucose levels and improved patient outcomes.',\n",
+              " 'Early diagnosis and monitoring are essential for preventing complications.']"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 26
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "words = word_tokenize(medical_text)\n",
+        "words"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "lW1wT7Uz07UT",
+        "outputId": "b470dfdb-b2ee-4c58-e943-c02d729a9f14"
+      },
+      "execution_count": 27,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "['Patients',\n",
+              " 'with',\n",
+              " 'diabetes',\n",
+              " 'mellitus',\n",
+              " 'were',\n",
+              " 'treated',\n",
+              " 'with',\n",
+              " 'insulin',\n",
+              " 'therapy',\n",
+              " '.',\n",
+              " 'The',\n",
+              " 'treatment',\n",
+              " 'reduced',\n",
+              " 'blood',\n",
+              " 'glucose',\n",
+              " 'levels',\n",
+              " 'and',\n",
+              " 'improved',\n",
+              " 'patient',\n",
+              " 'outcomes',\n",
+              " '.',\n",
+              " 'Early',\n",
+              " 'diagnosis',\n",
+              " 'and',\n",
+              " 'monitoring',\n",
+              " 'are',\n",
+              " 'essential',\n",
+              " 'for',\n",
+              " 'preventing',\n",
+              " 'complications',\n",
+              " '.']"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 27
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "nlp = spacy.load(\"en_core_web_sm\")\n",
+        "doc = nlp(medical_text)\n",
+        "spacy_tokens = [token.text for token in doc]\n",
+        "spacy_tokens\n",
+        ""
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "-kYMt1-G0-Xr",
+        "outputId": "f6b4232d-fa53-4b0e-9d82-2dc0a6cdc3ff"
+      },
+      "execution_count": 28,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "['\\n',\n",
+              " 'Patients',\n",
+              " 'with',\n",
+              " 'diabetes',\n",
+              " 'mellitus',\n",
+              " 'were',\n",
+              " 'treated',\n",
+              " 'with',\n",
+              " 'insulin',\n",
+              " 'therapy',\n",
+              " '.',\n",
+              " '\\n',\n",
+              " 'The',\n",
+              " 'treatment',\n",
+              " 'reduced',\n",
+              " 'blood',\n",
+              " 'glucose',\n",
+              " 'levels',\n",
+              " 'and',\n",
+              " 'improved',\n",
+              " 'patient',\n",
+              " 'outcomes',\n",
+              " '.',\n",
+              " '\\n',\n",
+              " 'Early',\n",
+              " 'diagnosis',\n",
+              " 'and',\n",
+              " 'monitoring',\n",
+              " 'are',\n",
+              " 'essential',\n",
+              " 'for',\n",
+              " 'preventing',\n",
+              " 'complications',\n",
+              " '.',\n",
+              " '\\n']"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 28
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "stemmer = PorterStemmer()\n",
+        "stemmed_words = [stemmer.stem(word) for word in words if word.isalpha()]\n",
+        "stemmed_words"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "XJYN3MQa1DZS",
+        "outputId": "a3f774b1-bd11-4332-c35a-b9d8907fe6de"
+      },
+      "execution_count": 29,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "['patient',\n",
+              " 'with',\n",
+              " 'diabet',\n",
+              " 'mellitu',\n",
+              " 'were',\n",
+              " 'treat',\n",
+              " 'with',\n",
+              " 'insulin',\n",
+              " 'therapi',\n",
+              " 'the',\n",
+              " 'treatment',\n",
+              " 'reduc',\n",
+              " 'blood',\n",
+              " 'glucos',\n",
+              " 'level',\n",
+              " 'and',\n",
+              " 'improv',\n",
+              " 'patient',\n",
+              " 'outcom',\n",
+              " 'earli',\n",
+              " 'diagnosi',\n",
+              " 'and',\n",
+              " 'monitor',\n",
+              " 'are',\n",
+              " 'essenti',\n",
+              " 'for',\n",
+              " 'prevent',\n",
+              " 'complic']"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 29
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "lemmatizer = WordNetLemmatizer()\n",
+        "lemmatized_words = [lemmatizer.lemmatize(word.lower()) for word in words if word.isalpha()]\n",
+        "lemmatized_words"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "DMUf6mvY2_zN",
+        "outputId": "315ae22f-7ffd-4cb7-b1fa-c205ff764a77"
+      },
+      "execution_count": 30,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "['patient',\n",
+              " 'with',\n",
+              " 'diabetes',\n",
+              " 'mellitus',\n",
+              " 'were',\n",
+              " 'treated',\n",
+              " 'with',\n",
+              " 'insulin',\n",
+              " 'therapy',\n",
+              " 'the',\n",
+              " 'treatment',\n",
+              " 'reduced',\n",
+              " 'blood',\n",
+              " 'glucose',\n",
+              " 'level',\n",
+              " 'and',\n",
+              " 'improved',\n",
+              " 'patient',\n",
+              " 'outcome',\n",
+              " 'early',\n",
+              " 'diagnosis',\n",
+              " 'and',\n",
+              " 'monitoring',\n",
+              " 'are',\n",
+              " 'essential',\n",
+              " 'for',\n",
+              " 'preventing',\n",
+              " 'complication']"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 30
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "import nltk\n",
+        "from nltk.tokenize import word_tokenize\n",
+        "\n",
+        "nltk.download('punkt')\n",
+        ""
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "q0yh5lT93Glq",
+        "outputId": "dbd3e0fc-a0bf-4144-f449-60b4043605e9"
+      },
+      "execution_count": 31,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stderr",
+          "text": [
+            "[nltk_data] Downloading package punkt to /root/nltk_data...\n",
+            "[nltk_data]   Package punkt is already up-to-date!\n"
+          ]
+        },
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "True"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 31
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "text = \"NLP models are transforming the world rapidly!\""
+      ],
+      "metadata": {
+        "id": "kmK6XlaA3Lt5"
+      },
+      "execution_count": 32,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "import nltk\n",
+        "nltk.download('punkt_tab') # Added to resolve the LookupError\n",
+        "tokens = word_tokenize(text.lower())\n",
+        ""
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "ye3tBa-r3P7g",
+        "outputId": "3452a22d-548f-4ef6-ad61-62866edb622d"
+      },
+      "execution_count": 33,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stderr",
+          "text": [
+            "[nltk_data] Downloading package punkt_tab to /root/nltk_data...\n",
+            "[nltk_data]   Package punkt_tab is already up-to-date!\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "print(tokens)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "FF6pA8_e3T0U",
+        "outputId": "cb129980-c89b-4572-e00e-81c7e1453d9b"
+      },
+      "execution_count": 34,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "['nlp', 'models', 'are', 'transforming', 'the', 'world', 'rapidly', '!']\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "from nltk.stem import PorterStemmer\n"
+      ],
+      "metadata": {
+        "id": "L06GmXWA3X9y"
+      },
+      "execution_count": 35,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "stemmer = PorterStemmer()\n",
+        ""
+      ],
+      "metadata": {
+        "id": "1HdWJ4jG3cfp"
+      },
+      "execution_count": 36,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "stemmed_words = [stemmer.stem(word) for word in tokens]\n",
+        "print(stemmed_words)\n",
+        ""
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "FhBIEY6R3ebT",
+        "outputId": "1877014a-5d7a-4d45-c362-05d02cc907ba"
+      },
+      "execution_count": 37,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "['nlp', 'model', 'are', 'transform', 'the', 'world', 'rapidli', '!']\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "from nltk.stem import WordNetLemmatizer\n",
+        "from nltk.corpus import wordnet\n",
+        "\n"
+      ],
+      "metadata": {
+        "id": "vDF7moJ93iSL"
+      },
+      "execution_count": 38,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "nltk.download('wordnet')\n",
+        "nltk.download('omw-1.4')\n",
+        "\n"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "XyNE108G3lQB",
+        "outputId": "2c2f9e04-3b51-4cbc-c247-e2818814160c"
+      },
+      "execution_count": 39,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stderr",
+          "text": [
+            "[nltk_data] Downloading package wordnet to /root/nltk_data...\n",
+            "[nltk_data]   Package wordnet is already up-to-date!\n",
+            "[nltk_data] Downloading package omw-1.4 to /root/nltk_data...\n",
+            "[nltk_data]   Package omw-1.4 is already up-to-date!\n"
+          ]
+        },
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "True"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 39
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "lemmatizer = WordNetLemmatizer()\n",
+        "\n"
+      ],
+      "metadata": {
+        "id": "7ZUuU4kn3rcj"
+      },
+      "execution_count": 40,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "lemmatized_words = [\n",
+        "    lemmatizer.lemmatize('models', pos='n'),\n",
+        "    lemmatizer.lemmatize('are', pos='v'),\n",
+        "    lemmatizer.lemmatize('transforming', pos='v'),\n",
+        "    lemmatizer.lemmatize('rapidly', pos='r')\n",
+        "]\n",
+        ""
+      ],
+      "metadata": {
+        "id": "h6ORAVOy33ko"
+      },
+      "execution_count": 41,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "print(['nlp'] + lemmatized_words[:1] + ['be', 'transform', 'the', 'world', 'rapidly'])\n",
+        ""
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "xW_OKOTP38F_",
+        "outputId": "3b333c16-a68a-4bd8-d3c1-bb1e9a89bad3"
+      },
+      "execution_count": 42,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "['nlp', 'model', 'be', 'transform', 'the', 'world', 'rapidly']\n"
+          ]
+        }
+      ]
+    }
+  ]
+}
